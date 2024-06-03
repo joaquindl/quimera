@@ -5,10 +5,12 @@ blog-photo-poem-front/build/
 # Python dependencies and virtual environment (backend)
 blog-photo-poem-back/env/
 blog-photo-poem-back/__pycache__/
+blog-photo-poem-back/routes/__pycache__/
 blog-photo-poem-back/*.pyc
 blog-photo-poem-back/*.pyo
 blog-photo-poem-back/*.pyd
 blog-photo-poem-back/.venv/
+
 
 # VSCode settings
 .vscode/
