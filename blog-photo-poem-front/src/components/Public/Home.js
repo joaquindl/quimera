@@ -1,8 +1,10 @@
 // src/components/Public/Home.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [poems, setPoems] = useState([]);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const Home = () => {
       <h1>Poems</h1>
       <ul>
         {poems.map(poem => (
-          <li key={poem.id}>
+          <li key={poem.id} onClick={() => navigate(`/poem/${poem.id}`)} style={{ cursor: 'pointer' }}>
             <h2>{poem.title}</h2>
             <p>{poem.content}</p>
             {poem.image_url && <img src={`http://localhost:5000${poem.image_url}`} alt={poem.title} style={{ maxWidth: '25vw' }} />}

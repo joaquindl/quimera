@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from models import Poem, db
+from models import Poem, User, db
 from routes.auth import requires_auth  # Asegúrate de que la importación sea correcta
 from werkzeug.utils import secure_filename
 import os
@@ -50,3 +50,27 @@ def delete_poem(id):
     db.session.delete(poem)
     db.session.commit()
     return jsonify({'message': 'Poem deleted successfully'})
+
+
+@admin.route('/admin/users', methods=['GET'])
+@requires_auth
+def get_users():
+    users = User.query.all()
+    return jsonify([{'id': user.id, 'username': user.username, 'role': user.role} for user in users])
+
+@admin.route('/admin/users/<int:id>', methods=['PUT'])
+@requires_auth
+def update_user(id):
+    data = request.get_json()
+    user = User.query.get_or_404(id)
+    user.role = data['role']
+    db.session.commit()
+    return jsonify({'message': 'User role updated successfully'})
+
+@admin.route('/admin/users/<int:id>', methods=['DELETE'])
+@requires_auth
+def delete_user(id):
+    user = User.query.get_or_404(id)
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'message': 'User deleted successfully'})

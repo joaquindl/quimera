@@ -1,10 +1,11 @@
 // src/components/Public/PoemDetail.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const PoemDetail = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [poem, setPoem] = useState(null);
 
     useEffect(() => {
@@ -24,6 +25,7 @@ const PoemDetail = () => {
 
     return (
         <div>
+            <button onClick={() => navigate('/')}>Back to Home</button>
             <h1>{`Título Poema: ${poem.title}`}</h1>
             <p>{poem.content}</p>
             {poem.image_url && <img src={poem.image_url} alt={poem.title} />}

@@ -58,6 +58,7 @@ const AdminPoem = () => {
   return (
     <div>
       <h1>Admin - Poems</h1>
+      <button onClick={() => navigate('/admin/users')}>Manage Users</button>
       <button onClick={() => navigate('/admin/create')}>Create New Poem</button>
       <ul>
         {poems.map(poem => (
