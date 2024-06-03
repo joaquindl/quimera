@@ -59,6 +59,7 @@ const EditPoem = () => {
         </div>
         <button type="submit">Update Poem</button>
       </form>
+      <button onClick={() => {navigate('/admin')}}>Back to Admin Panel</button>
     </div>
   );
 };

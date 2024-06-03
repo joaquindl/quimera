@@ -19,7 +19,7 @@ const CreatePoem = () => {
     image && formData.append('image', image);
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/poem', formData, {
+      await axios.post('http://127.0.0.1:5000/poem', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -60,6 +60,7 @@ const CreatePoem = () => {
         <button type="submit">Add Poem</button>
         {message && <p>{message}</p>}
       </form>
+      <button onClick={() => {navigate('/admin')}}>Back to Admin Panel</button>
     </div>
   );
 };
