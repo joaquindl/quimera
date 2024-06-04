@@ -37,14 +37,14 @@ def logout():
     session.pop('user_role', None)
     return jsonify({'message': 'Logged out successfully'})
 
-@auth.route('/check-auth', methods=['GET'])
-def check_auth():
-    user_id = session.get('user_id')
-    user_role = session.get('user_role')
-    print("Checking auth: ", user_id, user_role)  # Agregar este print para ver la salida en la terminal
-    if user_id and user_role:
-        return jsonify({'isAuthenticated': True, 'userRole': user_role})
-    return jsonify({'isAuthenticated': False, 'userRole': None})
+# @auth.route('/check-auth', methods=['GET'])
+# def check_auth():
+#     user_id = session.get('user_id')
+#     user_role = session.get('user_role')
+#     print("Checking auth: ", user_id, user_role)  # Agregar este print para ver la salida en la terminal
+#     if user_id and user_role:
+#         return jsonify({'isAuthenticated': True, 'userRole': user_role})
+#     return jsonify({'isAuthenticated': False, 'userRole': None})
 
 def check_auth(username, password):
     user = User.query.filter_by(username=username).first()

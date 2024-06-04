@@ -2,9 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+// Components
+import Button from '../common/Button';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [poems, setPoems] = useState([]);
 
   useEffect(() => {
@@ -23,6 +27,7 @@ const Home = () => {
   return (
     <div>
       <h1>Poems</h1>
+      {isAuthenticated && <Button onClick={() => {navigate('/poem/create')}}>Create post</Button>}
       <ul>
         {poems.map(poem => (
           <li key={poem.id} onClick={() => navigate(`/poem/${poem.id}`)} style={{ cursor: 'pointer' }}>

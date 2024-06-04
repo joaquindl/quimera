@@ -1,14 +1,21 @@
 // src/components/Admin/CreatePoem.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const CreatePoem = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
   const [message, setMessage] = useState('');
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,7 +26,7 @@ const CreatePoem = () => {
     image && formData.append('image', image);
 
     try {
-      await axios.post('http://127.0.0.1:5000/poem', formData, {
+      await axios.post('http://127.0.0.1:5000/poem/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -33,7 +40,7 @@ const CreatePoem = () => {
       setContent('');
       setImage('');
 
-      navigate('/admin');
+      navigate('/');
     } catch (error) {
       console.error(error);
       setMessage('Error creating Poem')
@@ -60,7 +67,7 @@ const CreatePoem = () => {
         <button type="submit">Add Poem</button>
         {message && <p>{message}</p>}
       </form>
-      <button onClick={() => {navigate('/admin')}}>Back to Admin Panel</button>
+      {/* <button onClick={() => {navigate('/admin')}}>Back to Admin Panel</button> */}
     </div>
   );
 };

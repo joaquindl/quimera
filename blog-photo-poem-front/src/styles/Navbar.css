@@ -1,0 +1,59 @@
+/* Estilos básicos para el navbar */
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px;
+  /* background-color: #333; */
+  /* color: #fff; */
+  border: 1px solid black;
+}
+
+.navbar-logo a {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.navbar-links a,
+.navbar-links span,
+.navbar-links button {
+  margin-top: 10px;
+  text-decoration: none;
+  /* color: #fff; */
+  font-size: 18px;
+}
+
+.navbar-links button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  /* color: #fff; */
+}
+
+/* Estilos para pantallas más grandes */
+@media (min-width: 768px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .navbar-links {
+    flex-direction: row;
+  }
+
+  .navbar-links a,
+  .navbar-links span,
+  .navbar-links button {
+    margin-left: 20px;
+    margin-top: 0;
+  }
+}

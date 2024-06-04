@@ -1,7 +1,11 @@
 # routes/main.py
-from flask import Blueprint, jsonify, send_file, current_app
+from flask import Blueprint, jsonify, send_file, current_app, request
+from werkzeug.utils import secure_filename
 import os
-from models import Poem
+from models import Poem, db
+from config import Config
+from routes.auth import requires_auth
+
 
 main = Blueprint('main', __name__)
 
@@ -24,6 +28,25 @@ def uploaded_file(filename):
 def home():
     poems = Poem.query.all()
     return jsonify([{'id': p.id, 'title': p.title, 'content': p.content, 'image_url': p.image_url} for p in poems])
+
+@main.route('/poem/create', methods=['POST'])
+@requires_auth
+def add_poem():
+    title = request.form['title']
+    content = request.form['content']
+    image = request.files.get('image')
+
+    if image:
+        filename = secure_filename(image.filename)
+        image.save(os.path.join(Config.UPLOAD_FOLDER, filename))
+        image_url = f"/uploads/{filename.replace(os.sep, '/')}"
+    else:
+        image_url = None
+
+    new_poem = Poem(title=title, content=content, image_url=image_url)
+    db.session.add(new_poem)
+    db.session.commit()
+    return jsonify({'message': 'Poem added successfully'}), 201
 
 @main.route('/poem/<int:id>', methods=['GET'])
 def get_poem(id):
