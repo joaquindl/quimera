@@ -26,7 +26,7 @@ def login():
     if user and check_password_hash(user.password, data['password']):
         session['user_id'] = user.id
         session['user_role'] = user.role
-        print("Session data set: ", session['user_id'], session['user_role'])  # Agregar este print para ver la salida en la terminal
+        print("Session data set: ", session['user_id'], session['user_role'])
         return jsonify({'message': 'Logged in successfully', 'role': user.role})
     return jsonify({'message': 'Invalid credentials'}), 401
 

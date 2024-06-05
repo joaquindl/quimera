@@ -33,6 +33,7 @@ const Home = () => {
           <li key={poem.id} onClick={() => navigate(`/poem/${poem.id}`)} style={{ cursor: 'pointer' }}>
             <h2>{poem.title}</h2>
             <p>{poem.content}</p>
+            <span>Author: {poem.author}</span>
             {poem.image_url && <img src={`http://localhost:5000${poem.image_url}`} alt={poem.title} style={{ maxWidth: '25vw' }} />}
           </li>
         ))}

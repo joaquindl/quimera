@@ -28,7 +28,7 @@ const PoemDetail = () => {
             <button onClick={() => navigate('/')}>Back to Home</button>
             <h1>{`Título Poema: ${poem.title}`}</h1>
             <p>{poem.content}</p>
-            {poem.image_url && <img src={poem.image_url} alt={poem.title} />}
+            {poem.image_url && <img src={`http://localhost:5000${poem.image_url}`} alt={poem.title} style={{ maxWidth: '25vw'}} />}
         </div>
     );
 };
