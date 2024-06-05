@@ -35,7 +35,9 @@ const AdminUser = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this user?');
     if (confirmDelete) {
         try {
-            await axios.delete(`http://127.0.0.1:5000/admin/users/${id}`, { withCredentials: true });
+            await axios.delete(`http://127.0.0.1:5000/admin/users/${id}`, { 
+              withCredentials: true 
+            });
             setUsers(users.filter(user => user.id !== id));
           } catch (error) {
             console.error(error);
