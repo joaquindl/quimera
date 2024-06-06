@@ -41,13 +41,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (username, password) => {
+  const signup = async (username, password, confirmPassword) => {
     try {
       const response = await axios.post('http://127.0.0.1:5000/signup', {
         username,
         password,
+        confirm_password: confirmPassword
       }, { withCredentials: true });
-
+  
       if (response.data.message === 'User registered successfully') {
         setIsAuthenticated(true);
         setUserRole(response.data.role);

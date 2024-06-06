@@ -8,6 +8,15 @@ auth = Blueprint('auth', __name__)
 @auth.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
+    password = data.get('password')
+    confirm_password = data.get('confirm_password')
+
+    if not password or not confirm_password:
+        return jsonify({'message': 'Password and confirm password are required'}), 400
+
+    if password != confirm_password:
+        return jsonify({'message': 'Passwords do not match'}), 400
+    
     hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
     new_user = User(username=data['username'], password=hashed_password, role='user')
     db.session.add(new_user)

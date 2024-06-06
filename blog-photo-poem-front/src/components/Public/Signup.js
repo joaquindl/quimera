@@ -5,13 +5,18 @@ import { useAuth } from '../../context/AuthContext';
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const { signup } = useAuth();
   const navigate = useNavigate();
 
   const handleSignup = async (event) => {
     event.preventDefault();
-    const success = await signup(username, password);
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match')
+      return;
+    }
+    const success = await signup(username, password, confirmPassword);
     if (success) {
       setMessage('User registered successfully');
       navigate('/');
@@ -39,6 +44,15 @@ const Signup = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Confirm Password:</label>
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
