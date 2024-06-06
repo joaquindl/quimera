@@ -1,43 +1,80 @@
-import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import Menu from './Menu'; // Importamos el componente Menu
+import '../../styles/Navbar.css'; // Estilos del Navbar
 
 const Navbar = () => {
-  const { isAuthenticated, userRole, logout } = useAuth();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
+  // const location = useLocation();
+  // const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    toggleMenu();
   };
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const updateMobileView = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateMobileView);
+    return () => {
+      window.removeEventListener('resize', updateMobileView);
+    };
+  }, []);
+
   return (
-    <nav>
-      <ul>
+    <header className="navbar">
+      <div className="navbar-left">
+        <div className="navbar-logo">
+          <Link to="/">QUIMERA</Link>
+        </div>
+      </div>
+      {!isMobile && (
+        <div className="navbar-center">
+          <nav>
+            <ul className="navbar-nav">
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/museum">Museum</Link></li>
+              <li><Link to="/about">About</Link></li>
+            </ul>
+          </nav>
+        </div>
+      )}
+      <div className="navbar-right">
         {!isAuthenticated && (
+          <div className="navbar-auth-links">
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Signup</Link>
+          </div>
+        )}
+        {isAuthenticated && isMobile && (
           <>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/signup">Signup</Link></li>
+            <Link to="/poem/create">Create Post →</Link>
+            <div className="navbar-menu-button" onClick={toggleMenu}>
+              Menu
+            </div>
+            {menuOpen && <Menu toggleMenu={toggleMenu} />}
           </>
         )}
-        {isAuthenticated && (
+        {!isMobile && isAuthenticated && (
           <>
-            <li>{localStorage.getItem('username')}</li>
-            {userRole === 'admin' ? (
-              <>
-                {location.pathname.startsWith('/admin') ? (
-                  <li><Link to="/">Home</Link></li>
-                ) : (
-                  <li><Link to="/admin">Admin Panel</Link></li>
-                )}
-              </>
-            ) : null}
-            <li><button onClick={handleLogout}>Logout</button></li>
+            <Link to="/poem/create">Create Post →</Link>
+            <div className="navbar-logout-button" onClick={handleLogout}>
+              Logout
+            </div>
           </>
         )}
-      </ul>
-    </nav>
+      </div>
+    </header>
   );
 };
 
